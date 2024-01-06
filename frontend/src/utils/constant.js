@@ -8,9 +8,8 @@ export const config = {
 };
 
 export const configApi = {
-  url: 'https://mesto.nomoreparties.co/v1/cohort-73',
+  url: 'https://api.inter.s.15.nomoredomainsmonster.ru',
   headers: {
-    authorization: '3d23ae3c-67fe-4f74-82f2-392199df013e',
     "Content-Type": "application/json"
   }
 };

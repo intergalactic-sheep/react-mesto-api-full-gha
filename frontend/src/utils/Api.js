@@ -11,11 +11,7 @@ class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this._url}/cards`, {
-      headers: {
-        authorization: '3d23ae3c-67fe-4f74-82f2-392199df013e'
-      }
-    })
+    return fetch(`${this._url}/cards`)
       .then(this._onResponse);
   }
 
@@ -81,7 +77,6 @@ class Api {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: '3d23ae3c-67fe-4f74-82f2-392199df013e',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -97,6 +92,60 @@ class Api {
     } else {
       return this.deleteLike(id);
     }
+  }
+
+  register({ email, password }) {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(this._onResponse)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      })
+    }
+  
+  authorize({ email, password }) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then(this._onResponse)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+  }
+  
+  checkToken(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(this._onResponse)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
   }
 }
 

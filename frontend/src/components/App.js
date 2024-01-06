@@ -18,7 +18,6 @@ import InfoTooltip from "./InfoTooltip.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 
 import api from "../utils/Api.js";
-import * as auth from "../utils/auth.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarOpen] = useState(false);
@@ -56,7 +55,7 @@ function App() {
     if (!token) {
       return;
     }
-    auth
+    api
       .checkToken(token)
       .then((userData) => {
         setUserData(userData.data);
@@ -70,7 +69,7 @@ function App() {
 
 
   function handleLogin(dataLogin) {
-    auth
+    api
       .authorize(dataLogin)
       .then((dataUser) => {
         localStorage.setItem("jwt", dataUser.token);
@@ -86,7 +85,7 @@ function App() {
   }
 
   function handleRegister(dataRegister) {
-    auth
+    api
       .register(dataRegister)
       .then(() => {
         setIsInfoTooltipPopupOpen(true);

@@ -3,8 +3,6 @@ const allowedCors = [
   'http://inter.s.15.nomoredomainsmonster.ru',
   'http://localhost:3000',
   'https://localhost:3000',
-  'https://api.inter.s.15.nomoredomainsmonster.ru',
-  'http://api.inter.s.15.nomoredomainsmonster.ru',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';

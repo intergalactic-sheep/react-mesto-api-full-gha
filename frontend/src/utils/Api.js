@@ -4,6 +4,14 @@ class Api {
   constructor(config) {
     this._url = config.url;
     this._headers = config.headers;
+    this._authHeaders = null;
+  }
+
+  setAuthHeaders = (token) => {
+    this._authHeaders = {
+      ...this._headers,
+      authorization: `Bearer ${token}`,
+    }
   }
 
   _onResponse(res) {
@@ -124,22 +132,6 @@ class Api {
         email,
         password,
       }),
-    })
-      .then(this._onResponse)
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      });
-  }
-  
-  checkToken(token) {
-    return fetch(`${this._url}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
     })
       .then(this._onResponse)
       .catch((err) => {

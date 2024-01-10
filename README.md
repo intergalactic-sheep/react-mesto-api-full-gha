@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP 10.128.0.21
+IP 51.250.69.22
 
 Frontend https://inter.s.15.nomoredomainsmonster.ru
 

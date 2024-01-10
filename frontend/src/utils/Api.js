@@ -6,14 +6,6 @@ class Api {
     this._headers = config.headers;
     this._authHeaders = null;
   }
-
-  setAuthHeaders = (token) => {
-    this._authHeaders = {
-      ...this._headers,
-      authorization: `Bearer ${token}`,
-    }
-  }
-
   _onResponse(res) {
     return res.ok ? res.json() : res.json().then(errData => Promise.reject(errData))
   }
@@ -99,6 +91,13 @@ class Api {
       return this.setLike(id);
     } else {
       return this.deleteLike(id);
+    }
+  }
+
+  setAuthHeaders = (token) => {
+    this._authHeaders = {
+      ...this._headers,
+      authorization: `Bearer ${token}`,
     }
   }
 

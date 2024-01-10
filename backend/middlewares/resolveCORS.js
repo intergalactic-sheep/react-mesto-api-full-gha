@@ -1,6 +1,7 @@
 const allowedCors = [
   'https://inter.s.15.nomoredomainsmonster.ru',
   'http://inter.s.15.nomoredomainsmonster.ru',
+  'inter.s.15.nomoredomainsmonster.ru',
   'http://localhost:3000',
   'https://localhost:3000',
 ];

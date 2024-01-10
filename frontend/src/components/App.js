@@ -56,7 +56,7 @@ function App() {
       return;
     }
     api
-      .checkToken(token)
+      .setAuthHeaders(token)
       .then((userData) => {
         setUserData(userData.data);
         setIsLoggedIn(true);

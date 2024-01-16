@@ -36,7 +36,12 @@ function App() {
   const [cards, setCards] = useState([]);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem('jwt');
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    setToken(jwt);
+  }, [token]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -52,26 +57,27 @@ function App() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (!token) {
+    if (!token || isLoggedIn) {
       return;
     }
-    api
-      .setAuthHeaders(token)
-      .then((userData) => {
-        setUserData(userData.data);
-        setIsLoggedIn(true);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    api.setAuthHeaders(token);
+    api.getUserInfo()
+    .then((userData) => {
+      setUserData(userData.data);
+      setIsLoggedIn(true);
+      navigate("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [token, isLoggedIn, navigate]);
 
 
   function handleLogin(dataLogin) {
     api
       .authorize(dataLogin)
       .then((dataUser) => {
+        setToken(dataUser.token);
         localStorage.setItem("jwt", dataUser.token);
         setLoginStatus(true);
         setUserData(dataLogin);
@@ -101,6 +107,7 @@ function App() {
   function logOut() {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
+    setToken('');
     setUserData({});
     navigate("/sign-in");
   };

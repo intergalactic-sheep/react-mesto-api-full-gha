@@ -10,7 +10,7 @@ export const config = {
 export const configApi = {
   url: 'https://api.inter.s.15.nomoredomainsmonster.ru',
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   }
 };
 

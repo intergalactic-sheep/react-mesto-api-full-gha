@@ -7,25 +7,27 @@ class Api {
     this._authHeaders = null;
   }
 
-  setAuthHeaders = (token) => {
+  setAuthHeaders(token) {
     this._authHeaders = {
       ...this._headers,
       authorization: `Bearer ${token}`,
-    }
-  }
+    };
+  };
 
   _onResponse(res) {
-    return res.ok ? res.json() : res.json().then(errData => Promise.reject(errData))
+    return res.ok ? res.json() : res.json().then(errData => Promise.reject(errData));
   }
 
   getInitialCards() {
-    return fetch(`${this._url}/cards`)
+    return fetch(`${this._url}/cards`, {
+      headers: this._authHeaders,
+    })
       .then(this._onResponse);
   }
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers
+      headers: this._authHeaders
     })
       .then(this._onResponse);
   }
@@ -33,10 +35,7 @@ class Api {
   changeUserInfo(data) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: {
-        authorization: '3d23ae3c-67fe-4f74-82f2-392199df013e',
-        'Content-Type': 'application/json'
-      },
+      headers: this._authHeaders,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -48,7 +47,7 @@ class Api {
   addCard(data) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: this._authHeaders,
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -60,7 +59,7 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._authHeaders,
     })
       .then(this._onResponse);
   }
@@ -68,7 +67,7 @@ class Api {
   setLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "PUT",
-      headers: this._headers,
+      headers: this._authHeaders,
     })
       .then(this._onResponse);
   }
@@ -76,7 +75,7 @@ class Api {
   deleteLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._authHeaders,
     })
       .then(this._onResponse);
   }
@@ -105,10 +104,7 @@ class Api {
   register({ email, password }) {
     return fetch(`${this._url}/signup`, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         email,
         password,
@@ -124,10 +120,7 @@ class Api {
   authorize({ email, password }) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         email,
         password,
@@ -143,4 +136,3 @@ class Api {
 
 const api = new Api(configApi);
 export default api;
-

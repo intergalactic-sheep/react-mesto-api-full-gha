@@ -38,10 +38,13 @@ class Api {
       .then(this._onResponse);
   }
 
-  changeUserInfo(data) {
+  changeUserInfo(data, token) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -50,10 +53,13 @@ class Api {
       .then(this._onResponse);
   }
 
-  addCard(data) {
+  addCard(data, token) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -62,34 +68,46 @@ class Api {
       .then(this._onResponse);
   };
 
-  deleteCard(id) {
+  deleteCard(id, token) {
     return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
     })
       .then(this._onResponse);
   }
 
-  setLike(id) {
+  setLike(id, token) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "PUT",
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
     })
       .then(this._onResponse);
   }
 
-  deleteLike(id) {
+  deleteLike(id, token) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
     })
       .then(this._onResponse);
   }
 
-  editAvatar(data) {
+  editAvatar(data, token) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({
         avatar: data.avatar
       })

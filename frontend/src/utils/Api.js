@@ -30,8 +30,10 @@ class Api {
 
   getUserInfo(token) {
     return fetch(`${this._url}/users/me`, {
-      "Content-Type": "application/json",
-      "authorization": `Bearer ${token}`
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      }
     })
       .then(this._onResponse);
   }

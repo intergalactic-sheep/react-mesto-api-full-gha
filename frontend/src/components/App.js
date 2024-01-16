@@ -60,7 +60,6 @@ function App() {
     if (!token || isLoggedIn) {
       return;
     }
-    api.setAuthHeaders(token);
     api.getUserInfo(token)
     .then((userData) => {
       setUserData(userData.data);

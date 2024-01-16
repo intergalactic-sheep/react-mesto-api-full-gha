@@ -72,7 +72,6 @@ function App() {
     });
   }, [token, isLoggedIn, navigate]);
 
-
   function handleLogin(dataLogin) {
     api
       .authorize(dataLogin)

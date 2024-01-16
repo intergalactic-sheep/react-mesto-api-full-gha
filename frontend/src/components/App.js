@@ -148,7 +148,7 @@ function App() {
   function handleCardDelete() {
     setLoadingForm(true);
     api
-      .deleteCard(selectedCard._id)
+      .deleteCard(selectedCard._id, token)
       .then(() => {
         setCards((cards) =>
           cards.filter((item) => item._id !== selectedCard._id)
@@ -162,7 +162,7 @@ function App() {
   function handleUpdateUser(data) {
     setLoadingForm(true);
     api
-      .changeUserInfo(data)
+      .changeUserInfo(data, token)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -174,7 +174,7 @@ function App() {
   function handleUpdateAvatar(data) {
     setLoadingForm(true);
     api
-      .editAvatar(data)
+      .editAvatar(data, token)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -186,7 +186,7 @@ function App() {
   function handleAddPlaceSubmit(data) {
     setLoadingForm(true);
     api
-      .addCard(data)
+      .addCard(data, token)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();

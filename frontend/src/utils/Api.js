@@ -7,27 +7,31 @@ class Api {
     this._authHeaders = null;
   }
 
-  setAuthHeaders(token) {
-    this._authHeaders = {
-      ...this._headers,
-      authorization: `Bearer ${token}`,
-    };
-  };
+  // setAuthHeaders(token) {
+  //   this._authHeaders = {
+  //     ...this._headers,
+  //     authorization: `Bearer ${token}`,
+  //   };
+  // };
 
   _onResponse(res) {
     return res.ok ? res.json() : res.json().then(errData => Promise.reject(errData));
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._url}/cards`, {
-      headers: this._authHeaders,
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
     })
       .then(this._onResponse);
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._url}/users/me`, {
-      headers: this._authHeaders
+      "Content-Type": "application/json",
+      "authorization": `Bearer ${token}`
     })
       .then(this._onResponse);
   }
@@ -83,9 +87,7 @@ class Api {
   editAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: this._authHeaders,
       body: JSON.stringify({
         avatar: data.avatar
       })
@@ -110,11 +112,7 @@ class Api {
         password,
       }),
     })
-      .then(this._onResponse)
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      })
+      .then(this._onResponse);
     }
   
   authorize({ email, password }) {
@@ -126,11 +124,7 @@ class Api {
         password,
       }),
     })
-      .then(this._onResponse)
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      });
+      .then(this._onResponse);
   }
 }
 

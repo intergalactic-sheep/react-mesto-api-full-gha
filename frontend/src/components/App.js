@@ -41,11 +41,11 @@ function App() {
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     setToken(jwt);
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
+      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
         .then(([user, cards]) => {
           setCurrentUser(user);
           setCards(cards);
@@ -54,14 +54,14 @@ function App() {
           console.log(err);
         });
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, token]);
 
   useEffect(() => {
     if (!token || isLoggedIn) {
       return;
     }
     api.setAuthHeaders(token);
-    api.getUserInfo()
+    api.getUserInfo(token)
     .then((userData) => {
       setUserData(userData.data);
       setIsLoggedIn(true);

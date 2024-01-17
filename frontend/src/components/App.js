@@ -39,16 +39,12 @@ function App() {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    setToken(jwt);
-  }, []);
-
-  useEffect(() => {
     if (isLoggedIn) {
-      Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
+      api.setAuthHeaders(token);
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([user, cards]) => {
           setCurrentUser(user);
-          setCards(cards);
+          setCards(cards.reverse());
         })
         .catch((err) => {
           console.log(err);
@@ -57,19 +53,25 @@ function App() {
   }, [isLoggedIn, token]);
 
   useEffect(() => {
-    if (!token || isLoggedIn) {
+    const jwt = localStorage.getItem('jwt');
+    setToken(jwt);
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
       return;
     }
-    api.getUserInfo(token)
+    api.setAuthHeaders(token);
+    api.getUserInfo()
     .then((userData) => {
-      setUserData(userData.data);
+      setUserData(userData);
       setIsLoggedIn(true);
       navigate("/");
     })
     .catch((err) => {
       console.log(err);
     });
-  }, [token, isLoggedIn, navigate]);
+  }, [token, navigate]);
 
   function handleLogin(dataLogin) {
     api
@@ -134,7 +136,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    api.setAuthHeaders(token);
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -147,8 +149,9 @@ function App() {
 
   function handleCardDelete() {
     setLoadingForm(true);
+    api.setAuthHeaders(token);
     api
-      .deleteCard(selectedCard._id, token)
+      .deleteCard(selectedCard._id)
       .then(() => {
         setCards((cards) =>
           cards.filter((item) => item._id !== selectedCard._id)
@@ -161,8 +164,9 @@ function App() {
 
   function handleUpdateUser(data) {
     setLoadingForm(true);
+    api.setAuthHeaders(token);
     api
-      .changeUserInfo(data, token)
+      .changeUserInfo(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -173,8 +177,9 @@ function App() {
 
   function handleUpdateAvatar(data) {
     setLoadingForm(true);
+    api.setAuthHeaders(token);
     api
-      .editAvatar(data, token)
+      .editAvatar(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -185,8 +190,9 @@ function App() {
 
   function handleAddPlaceSubmit(data) {
     setLoadingForm(true);
+    api.setAuthHeaders(token);
     api
-      .addCard(data, token)
+      .addCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();

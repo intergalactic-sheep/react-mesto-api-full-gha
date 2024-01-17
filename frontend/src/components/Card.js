@@ -13,9 +13,6 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   function handleCardClick() {
     onCardClick(card);
-    console.log(card.likes);
-    console.log(currentUser._id);
-    console.log(isLiked);
   }
 
   function handleCardLike() {

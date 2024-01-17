@@ -9,6 +9,7 @@ const {
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
+    .populate(['owner', 'likes'])
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -18,6 +19,7 @@ module.exports.createCard = (req, res, next) => {
   newCard.owner = req.user._id;
   newCard
     .save()
+    .then((createdCard) => createdCard.populate(['owner']))
     .then((createdCard) => res.status(ERROR_CODE.CREATED).send(createdCard))
     .catch((err) => {
       if (err instanceof ValidationError) {
@@ -55,6 +57,7 @@ module.exports.likeCard = (req, res, next) => {
     { [likeMethod]: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не была найдена');

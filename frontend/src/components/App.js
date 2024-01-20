@@ -87,6 +87,7 @@ function App() {
       .catch((err) => {
         console.log(err);
         setIsInfoTooltipPopupOpen(true);
+        setLoginStatus(false);
       });
   }
 
@@ -101,7 +102,8 @@ function App() {
       .catch((err) => {
         console.log(err);
         setIsInfoTooltipPopupOpen(true);
-      });
+        setLoginStatus(false);
+      })
   }
 
   function logOut() {

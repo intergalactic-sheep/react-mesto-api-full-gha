@@ -117,12 +117,6 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
 
-      res.cookie('authToken', token, {
-        httpOnly: true,
-        maxAge: 3600000 * 24 * 7,
-        secure: process.env.NODE_ENV === 'production',
-      });
-
       res.send({ token });
     })
     .catch(next);

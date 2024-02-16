@@ -26,7 +26,7 @@ function Header({ userData, logOut }) {
           path="/"
           element={
             <>
-              <p className="header__email">{userData.email}</p>
+              <p className="header__email">{userData.email ? userData.email.split('@')[0] : ''}</p>
               <button
                 className='button header__button header__button_inactive'
                 onClick={logOut}

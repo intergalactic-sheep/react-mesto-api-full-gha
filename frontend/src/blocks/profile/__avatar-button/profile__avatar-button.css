@@ -1,4 +1,5 @@
 .profile__avatar-button {
+  width: 120px;
   position: relative;
   margin: 0;
   padding: 0;
@@ -24,4 +25,10 @@
 .profile__avatar-button:hover::before {
   opacity: 1;
   cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+  .profile__avatar-button {
+    margin: 0 auto;
+  }
 }

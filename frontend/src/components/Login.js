@@ -1,6 +1,16 @@
 import { useState } from "react";
+// import { useForm } from 'react-hook-form';
 
 export default function Login({ onLogin }) {
+  // const {
+  //   register,
+  //   formState: {
+  //     errors,
+  //   },
+  //   handleSubmit,
+  // } = useForm({
+  //   mode: 'onChange',
+  // });
   const [userData, setUserData] = useState({});
 
   function handleInputChange(evt) {
@@ -11,7 +21,7 @@ export default function Login({ onLogin }) {
     })
   }
 
-  function handleSubmit(evt) {
+  function onSuccessfulSubmit(evt) {
     evt.preventDefault();
     const {email, password} = userData;
     if (!email || !password) {
@@ -24,7 +34,7 @@ export default function Login({ onLogin }) {
     <>
       <div className="auth__container">
         <h2 className="auth__title">Вход</h2>
-        <form className="auth__form" onSubmit={handleSubmit} noValidate>
+        <form className="auth__form" onSubmit={onSuccessfulSubmit} noValidate>
           <input
             name="email"
             className="auth__input"
@@ -32,7 +42,19 @@ export default function Login({ onLogin }) {
             placeholder="Email"
             value={userData.email || ''}
             onChange={handleInputChange}
+            // {...register('email', {
+            //   required: 'Поле обязательно для заполнения!',
+            //   minLength: {
+            //     value: 3,
+            //     message: 'Минимум 3 символа'
+            //   },
+            //   value: userData.email || '',
+            //   // onChange: {handleInputChange}
+            // })}
           />
+          {/* <div style={{height: 40}}>
+            {errors?.email && <p>{errors?.email?.message || 'Ошибка!'}</p>}
+          </div> */}
           <input
             name="password"
             className="auth__input"

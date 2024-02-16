@@ -4,4 +4,22 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
+    max-width: 400px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 960px) {
+    .header__email {
+      margin: 6px 0px 46px auto;
+      max-width: 350px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .header__email {
+      font-size: 14px;
+      margin: 15px 0px 35px auto;
+    }
 }
